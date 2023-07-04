@@ -1,0 +1,33 @@
+name: Star to Bluesky
+on:
+  schedule:
+    # 5分ごとに実行
+    - cron: '0/5 * * * *'
+  workflow_dispatch:
+jobs:
+  star-to-bluesky:
+    runs-on: ubuntu-latest
+    steps:
+      # リポジトリのチェックアウト
+      - name: Checkout
+        uses: actions/checkout@v3
+      # 前回の実行時刻を環境変数に設定
+      - name: Get Last Execution Time
+        id: last-execution
+        run: |
+          url="https://api.github.com/repos/yug1224/star-to-bluesky/actions/workflows/star-to-bluesky.yml/runs?status=success&per_page=1"
+          echo "LAST_EXECUTION_TIME=$(curl -fsSL "$url" | jq -r '.workflow_runs[0].updated_at')" >> $GITHUB_ENV
+      # Denoのセットアップ
+      - name: Setup Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+      # Denoの実行
+      - name: Deno Run
+        run: deno run --allow-read --allow-env --allow-net main.ts
+        env:
+          BLUESKY_IDENTIFIER: ${{secrets.BLUESKY_IDENTIFIER}}
+          BLUESKY_PASSWORD: ${{secrets.BLUESKY_PASSWORD}}
+          RSS_URL: ${{secrets.RSS_URL}}
+          # タイムゾーンを日本に設定
+          TZ: 'Asia/Tokyo'

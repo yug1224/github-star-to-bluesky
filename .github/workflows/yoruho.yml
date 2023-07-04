@@ -1,0 +1,26 @@
+name: yoruho
+on:
+  schedule:
+    # 日本時間の0時と4時に実行
+    - cron: '0 15,19 * * *'
+  workflow_dispatch:
+jobs:
+  yoruho:
+    runs-on: ubuntu-latest
+    steps:
+      # リポジトリのチェックアウト
+      - name: Checkout
+        uses: actions/checkout@v3
+      # Denoのセットアップ
+      - name: Setup Deno
+        uses: denoland/setup-deno@v1
+        with:
+          deno-version: v1.x
+      # Denoの実行
+      - name: Deno Run
+        run: deno run --allow-read --allow-env --allow-net yoruho.ts
+        env:
+          BLUESKY_IDENTIFIER: ${{secrets.BLUESKY_IDENTIFIER}}
+          BLUESKY_PASSWORD: ${{secrets.BLUESKY_PASSWORD}}
+          # タイムゾーンを日本に設定
+          TZ: 'Asia/Tokyo'

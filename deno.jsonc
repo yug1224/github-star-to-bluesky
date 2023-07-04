@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "strict": true
+  },
+  "fmt": {
+    "include": ["./"],
+    "indentWidth": 2,
+    "lineWidth": 80,
+    "proseWrap": "always",
+    "singleQuote": true,
+    "useTabs": false
+  },
+  "lint": {
+    "include": ["./"],
+    "rules": {
+      "tags": ["recommended"]
+    }
+  }
+}
