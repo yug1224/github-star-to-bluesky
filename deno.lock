@@ -51,6 +51,11 @@
     "https://deno.land/x/rss@0.6.0/src/resolvers/rss1_resolver.ts": "76292ebe5ab13aa17408288f62d19bdd78c74b47307e2db7fc0df595305d37a4",
     "https://deno.land/x/rss@0.6.0/src/resolvers/rss2_resolver.ts": "a82b0e9e5ba0f73d4bd924de12b0d02575a2fc56142bea534a83e632bb166b97",
     "https://deno.land/x/rss@0.6.0/src/resolvers/slash_resolver.ts": "ea904b557a18961077bb974cea64629fd46f0cc5964fd8e66eaaeca5f0682ce4",
+    "https://deno.land/x/rss@0.6.0/src/resolvers/types/resolver_result.ts": "c0b211a60e799da35911aa8e6a4e882b2282261db00f94288fdc353054bd55b3",
+    "https://deno.land/x/rss@0.6.0/src/types/atom.ts": "49726f13bce85e829cbcddff038652a8bc8c55279d8b07194a6b088035168a59",
+    "https://deno.land/x/rss@0.6.0/src/types/deserialization_result.ts": "4f1c7a44c8c508fca4ce1558c73626ed2505140d85824208bc6512736f48aef7",
+    "https://deno.land/x/rss@0.6.0/src/types/dublin_core.ts": "8b18fc08f705d2e380315213355cdf47114f1a08dcdc55865d14d13023eb87d6",
+    "https://deno.land/x/rss@0.6.0/src/types/feed.ts": "b57a6b3a8498021aabe7c265d2b656aa666ca2f24e048975c4ee7b1c1fe699e0",
     "https://deno.land/x/rss@0.6.0/src/types/feed_type.ts": "b2098f23982be344a19f00915437550d1e4002fb653ac9e34455a90119ee4e6c",
     "https://deno.land/x/rss@0.6.0/src/types/fields/atom_fields.ts": "85bf1a4b3e917baa3c94f3fba8283b678d5a10e78a16c42cfa19b2ee0bf210b3",
     "https://deno.land/x/rss@0.6.0/src/types/fields/dublin_core_fields.ts": "fd6b7e5b660a4f99cabb7a62ae91ab48579de340e57c8dd7ad62c992e64c1644",
@@ -59,21 +64,41 @@
     "https://deno.land/x/rss@0.6.0/src/types/fields/rss1_fields.ts": "04da9ca7d3fe2b59626c6b3bd18bfd41bf1b1531bc33f2d4f420f10da4e84f7e",
     "https://deno.land/x/rss@0.6.0/src/types/fields/rss2_fields.ts": "c5041472e42cdf04e9f6b2e6e2e334b016aff40524c9a4a4f2c3a5875f9508ea",
     "https://deno.land/x/rss@0.6.0/src/types/fields/slash_fields.ts": "11a1cf81744fe3b2bddbcf3a3ce6f86406d250198ef8c41e6fa58dd652e2e466",
+    "https://deno.land/x/rss@0.6.0/src/types/internal/internal_atom.ts": "32a68a98bdcf268c60fdf054ed214a5ee35d75a0dbd960ad9449502b333e4107",
     "https://deno.land/x/rss@0.6.0/src/types/internal/internal_dublin_core.ts": "9f3d63a2386335c8bfe03d3ca3aa6e71f437edb2df0c29f1317308f35cdbcfea",
+    "https://deno.land/x/rss@0.6.0/src/types/internal/internal_media_rss.ts": "77a85ac367575395497017c7d0982622b20dfd39ebaf1282406d0c5dc37b6e93",
+    "https://deno.land/x/rss@0.6.0/src/types/internal/internal_rss1.ts": "844a931f74950bf50415758f236ed9b7df8a9d9996326582365d721378794974",
+    "https://deno.land/x/rss@0.6.0/src/types/internal/internal_rss2.ts": "84a63a3dbeddc50e7a61303b083abc351d2287b5ac715eca4f4db8f4b006b504",
+    "https://deno.land/x/rss@0.6.0/src/types/internal/mod.ts": "3347809917893b3b7f1730486f1c89002ca0745be43d61443cabb780b70bfc0b",
+    "https://deno.land/x/rss@0.6.0/src/types/json_feed.ts": "5d39ff077934ba361b1132dcb75d1d5a397404aef9b3c0aa57ece103d8761982",
+    "https://deno.land/x/rss@0.6.0/src/types/media_rss.ts": "efd2e6c8a7c7cc3fc685d0b88ef2ba406f43bea8b0e0bc22e3e4cbed3caa06a9",
     "https://deno.land/x/rss@0.6.0/src/types/mod.ts": "c8daacf748276644389dd3c8d9c5e6c964707cc59b719b35aa1a424d453d543c",
+    "https://deno.land/x/rss@0.6.0/src/types/rss1.ts": "30335c0ec9c02e5ebb0ffbe5d8341a23b9c261cd85a7a7780bb6f9523fe406f9",
+    "https://deno.land/x/rss@0.6.0/src/types/rss2.ts": "e71052107ea616cbd74e2c2e3c2f0c42680a97ec9ce2edfd6f440ab98ff89581",
     "https://deno.land/x/rss@0.6.0/src/types/slash.ts": "9a08968ef416f818de3ab9778650fa0b586f9c8c60369bdbd365ba110c5f6f05",
+    "https://deno.land/x/rss@0.6.0/src/types/value_field.ts": "27bf4039789ad4fc2044137de736651d0e416dfd461e8dda9b0800cc735900d3",
     "https://deno.land/x/rss@0.6.0/src/util.ts": "a6611bcea8acf000eb01220092f1bea6c18aaf3ad82578c60563f25f6260c080",
     "https://deno.land/x/sax_ts@v1.2.10/src/sax.ts": "3d468d10d13d2690b5910fd12afc3cf52d979c0f144899d5c36da45c0931634e"
   },
   "npm": {
     "specifiers": {
-      "@atproto/api": "@atproto/api@0.3.13",
-      "open-graph-scraper": "open-graph-scraper@6.2.1",
+      "@atproto/api": "@atproto/api@0.4.3",
+      "open-graph-scraper": "open-graph-scraper@6.2.2",
       "sharp": "sharp@0.32.1"
     },
     "packages": {
       "@atproto/api@0.3.13": {
         "integrity": "sha512-smDlomgipca16G+jKXAZSMfsAmA5wG8WR3Z1dj29ZShVJlhs6+HHdxX7dWVDYEdSeb2rp/wyHN/tQhxGDAkz/g==",
+        "dependencies": {
+          "@atproto/common-web": "@atproto/common-web@0.1.0",
+          "@atproto/uri": "@atproto/uri@0.0.2",
+          "@atproto/xrpc": "@atproto/xrpc@0.1.0",
+          "tlds": "tlds@1.240.0",
+          "typed-emitter": "typed-emitter@2.1.0"
+        }
+      },
+      "@atproto/api@0.4.3": {
+        "integrity": "sha512-8LdREwmoA58YQDrLS0rohd7cHokhoiXfyYEeNtNlkdO0w/2QpkUCQ1PgPBP2kIRM9PhOEkKp7W3Sn8Te9Qq8jg==",
         "dependencies": {
           "@atproto/common-web": "@atproto/common-web@0.1.0",
           "@atproto/uri": "@atproto/uri@0.0.2",
@@ -365,6 +390,15 @@
       },
       "open-graph-scraper@6.2.1": {
         "integrity": "sha512-DNznPjv7D4/GlMbuIFUME2tVw6Qez0grRNGu7fA4g80S83M47Gwe/nRuw7+8PN0MpG9E4zbWCkMvgv5B3HscKw==",
+        "dependencies": {
+          "chardet": "chardet@1.6.0",
+          "cheerio": "cheerio@1.0.0-rc.12",
+          "undici": "undici@5.22.1",
+          "validator": "validator@13.9.0"
+        }
+      },
+      "open-graph-scraper@6.2.2": {
+        "integrity": "sha512-cQO0c0HF9ZMhSoIEOKMyxbSYwKn6qWBDEdQeCvZnAVwKCxSWj2DV8AwC1J4JCiwZbn/C4grGCJXpvmlAyTXrBg==",
         "dependencies": {
           "chardet": "chardet@1.6.0",
           "cheerio": "cheerio@1.0.0-rc.12",

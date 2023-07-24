@@ -11,12 +11,32 @@ jobs:
       # リポジトリのチェックアウト
       - name: Checkout
         uses: actions/checkout@v3
-      # 前回の実行時刻を環境変数に設定
-      - name: Get Last Execution Time
-        id: last-execution
+      # cacheの復元
+      - name: Cache Deno dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.deno
+            ~/.cache/deno
+          key: ${{ hashFiles('deno.lock') }}
+      - name: Restore Last Execution Time
+        uses: actions/cache/restore@v3
+        with:
+          path: |
+            .timestamp
+          key: last-execution-time
+          restore-keys: last-execution-time-
+      - name: 'Check file existence'
+        id: check_file
+        uses: andstor/file-existence-action@v2
+        with:
+          files: '.timestamp'
+      # 前回の実行時刻を設定
+      - name: Set Last Execution Time
+        if: steps.check_file.outputs.files_exists == 'false'
         run: |
           url="https://api.github.com/repos/yug1224/star-to-bluesky/actions/workflows/star-to-bluesky.yml/runs?status=success&per_page=1"
-          echo "LAST_EXECUTION_TIME=$(curl -fsSL "$url" | jq -r '.workflow_runs[0].updated_at')" >> $GITHUB_ENV
+          echo "$(curl -fsSL "$url" | jq -r '.workflow_runs[0].created_at')" > .timestamp
       # Denoのセットアップ
       - name: Setup Deno
         uses: denoland/setup-deno@v1
@@ -24,10 +44,16 @@ jobs:
           deno-version: v1.x
       # Denoの実行
       - name: Deno Run
-        run: deno run --allow-read --allow-env --allow-net main.ts
+        run: deno run --allow-read --allow-write --allow-env --allow-net main.ts
         env:
           BLUESKY_IDENTIFIER: ${{secrets.BLUESKY_IDENTIFIER}}
           BLUESKY_PASSWORD: ${{secrets.BLUESKY_PASSWORD}}
           RSS_URL: ${{secrets.RSS_URL}}
           # タイムゾーンを日本に設定
           TZ: 'Asia/Tokyo'
+      - name: Save Last Execution Time
+        uses: actions/cache/save@v3
+        with:
+          path: |
+            .timestamp
+          key: last-execution-time-${{hashFiles('.timestamp')}}
