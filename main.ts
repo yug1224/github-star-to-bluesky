@@ -101,7 +101,8 @@ for await (const starredItem of starredItemList) {
     continue;
   }
 
-  const postObj = {
+  const postObj: Partial<AtprotoAPI.AppBskyFeedPost.Record> &
+    Omit<AtprotoAPI.AppBskyFeedPost.Record, 'createdAt'> = {
     $type: 'app.bsky.feed.post',
     text: rt.text,
     facets: rt.facets,
