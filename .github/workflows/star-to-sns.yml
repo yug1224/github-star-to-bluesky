@@ -1,11 +1,11 @@
-name: Star to Bluesky
+name: Star to SNS
 on:
   schedule:
     # 5分ごとに実行
     - cron: '0/5 * * * *'
   workflow_dispatch:
 jobs:
-  star-to-bluesky:
+  star-to-SNS:
     runs-on: ubuntu-latest
     # 5分以上かかったらタイムアウト
     timeout-minutes: 5
@@ -13,32 +13,35 @@ jobs:
       # リポジトリのチェックアウト
       - name: Checkout
         uses: actions/checkout@v3
-      # cacheの復元
-      - name: Cache Deno dependencies
+      # Cacheの復元
+      - name: Cache Deno Deps
         uses: actions/cache@v3
         with:
           path: |
             ~/.deno
             ~/.cache/deno
           key: ${{ hashFiles('deno.lock') }}
-      - name: Restore Last Execution Time
+      - name: Restore Last Execution Time Cache
         uses: actions/cache/restore@v3
         with:
           path: |
             .timestamp
           key: last-execution-time
           restore-keys: last-execution-time-
-      - name: 'Check file existence'
+      - name: Check file exists
         id: check_file
         uses: andstor/file-existence-action@v2
         with:
-          files: '.timestamp'
-      # 前回の実行時刻を設定
-      - name: Set Last Execution Time
+          files: .timestamp
+      # 現在時刻を設定
+      - name: Set Current Time
         if: steps.check_file.outputs.files_exists == 'false'
         run: |
-          url="https://api.github.com/repos/yug1224/star-to-bluesky/actions/workflows/star-to-bluesky.yml/runs?status=success&per_page=1"
-          echo "$(curl -fsSL "$url" | jq -r '.workflow_runs[0].created_at')" > .timestamp
+          echo "$(date '+%Y-%m-%dT%H:%M:%SZ')" > .timestamp
+      - name: Set Timestamp Hash
+        id: set-timestamp-hash
+        run: |
+          echo "TIMESTAMP=${{hashFiles('.timestamp')}}" >> $GITHUB_OUTPUT
       # Denoのセットアップ
       - name: Setup Deno
         uses: denoland/setup-deno@v1
@@ -51,10 +54,11 @@ jobs:
           BLUESKY_IDENTIFIER: ${{secrets.BLUESKY_IDENTIFIER}}
           BLUESKY_PASSWORD: ${{secrets.BLUESKY_PASSWORD}}
           RSS_URL: ${{secrets.RSS_URL}}
-          # タイムゾーンを日本に設定
-          TZ: 'Asia/Tokyo'
-      - name: Save Last Execution Time
+          WEBHOOK_URL: ${{secrets.WEBHOOK_URL}}
+      # Cacheの保存
+      - name: Save Last Execution Time Cache
         uses: actions/cache/save@v3
+        if: ${{always() && (steps.check_file.outputs.files_exists == 'false' || steps.set-timestamp-hash.outputs.TIMESTAMP != hashFiles('.timestamp'))}}
         with:
           path: |
             .timestamp

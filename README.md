@@ -1,3 +1,3 @@
-# star-to-bluesky
+# star-to-sns
 
-GitHubでStarを付けたらBlueskyに投稿する
+GitHubでStarを付けたらBluesky・Xに投稿する
