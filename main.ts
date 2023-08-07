@@ -1,5 +1,6 @@
 import 'https://deno.land/std@0.193.0/dotenv/load.ts';
 
+import createProperties from './src/createProperties.ts';
 import getItemList from './src/getItemList.ts';
 import getOgp from './src/getOgp.ts';
 import postBluesky from './src/postBluesky.ts';
@@ -25,9 +26,9 @@ for await (const item of itemList) {
   await Deno.writeTextFile('.timestamp', timestamp);
 
   // 投稿記事のプロパティを作成
-  const title = item.title?.value || '';
-  const link = item.links[0].href || '';
-  const text = `${title}\n${link}`;
+  const { bskyText, xText, title, link, description } = await createProperties(
+    item
+  );
 
   // URLからOGPの取得
   const og = await getOgp(link);
@@ -43,12 +44,15 @@ for await (const item of itemList) {
   })();
 
   // Blueskyに投稿
-  await postBluesky(text, title, link, {
-    type: mimeType,
+  await postBluesky({
+    rt: bskyText,
+    title,
+    link,
+    description: description || og.ogDescription || '',
+    mimeType,
     image: resizedImage,
-    description: og.ogDescription,
   });
 
   // IFTTTを使ってXに投稿
-  await postWebhook(text);
+  await postWebhook(xText);
 }

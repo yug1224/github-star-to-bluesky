@@ -83,6 +83,7 @@
   "npm": {
     "specifiers": {
       "@atproto/api": "@atproto/api@0.4.3",
+      "graphemer": "graphemer@1.4.0",
       "open-graph-scraper": "open-graph-scraper@6.2.2",
       "sharp": "sharp@0.32.1"
     },
@@ -309,6 +310,10 @@
       },
       "github-from-package@0.0.0": {
         "integrity": "sha512-SyHy3T1v2NUXn29OsWdxmK6RwHD+vkj3v8en8AOBZ1wBQ/hCAQ5bAQTD02kW4W9tUp/3Qh6J8r9EvntiyCmOOw==",
+        "dependencies": {}
+      },
+      "graphemer@1.4.0": {
+        "integrity": "sha512-EtKwoO6kxCL9WO5xipiHTZlSzBm7WLT627TqC/uVRd0HKmq8NXyebnNYxDoBi7wt8eTWrUrKXCOVaFq9x1kgag==",
         "dependencies": {}
       },
       "htmlparser2@8.0.2": {

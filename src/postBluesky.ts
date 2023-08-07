@@ -1,26 +1,26 @@
-import AtprotoAPI from 'npm:@atproto/api';
-
-// Blueskyに接続
-const { BskyAgent, RichText } = AtprotoAPI;
+import AtprotoAPI, { RichText } from 'npm:@atproto/api';
+const { BskyAgent } = AtprotoAPI;
 const service = 'https://bsky.social';
 const agent = new BskyAgent({ service });
 const identifier = Deno.env.get('BLUESKY_IDENTIFIER') || '';
 const password = Deno.env.get('BLUESKY_PASSWORD') || '';
 await agent.login({ identifier, password });
 
-export default async (
-  text: string,
-  title: string,
-  link: string,
-  og: {
-    type?: string | undefined;
-    image?: Uint8Array | undefined;
-    description?: string | undefined;
-  }
-) => {
-  const rt = new RichText({ text });
-  await rt.detectFacets(agent);
-
+export default async ({
+  rt,
+  title,
+  link,
+  description,
+  mimeType,
+  image,
+}: {
+  rt: RichText;
+  title: string;
+  link: string;
+  description: string;
+  mimeType?: string;
+  image?: Uint8Array;
+}) => {
   const postObj: Partial<AtprotoAPI.AppBskyFeedPost.Record> &
     Omit<AtprotoAPI.AppBskyFeedPost.Record, 'createdAt'> = {
     $type: 'app.bsky.feed.post',
@@ -28,10 +28,10 @@ export default async (
     facets: rt.facets,
   };
 
-  if (og.image instanceof Uint8Array && typeof og.type === 'string') {
+  if (image instanceof Uint8Array && typeof mimeType === 'string') {
     // 画像をアップロード
-    const uploadedImage = await agent.uploadBlob(og.image, {
-      encoding: og.type,
+    const uploadedImage = await agent.uploadBlob(image, {
+      encoding: mimeType,
     });
 
     // 投稿オブジェクトに画像を追加
@@ -48,7 +48,7 @@ export default async (
           size: uploadedImage.data.blob.size,
         },
         title,
-        description: og.description,
+        description,
       },
     };
   }
