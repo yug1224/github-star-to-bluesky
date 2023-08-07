@@ -4,6 +4,7 @@ import getItemList from './src/getItemList.ts';
 import getOgp from './src/getOgp.ts';
 import postBluesky from './src/postBluesky.ts';
 import postWebhook from './src/postWebhook.ts';
+import resizeImage from './src/resizeImage.ts';
 
 // rss feedから記事リストを取得
 const itemList = await getItemList();
@@ -31,8 +32,22 @@ for await (const item of itemList) {
   // URLからOGPの取得
   const og = await getOgp(link);
 
+  // 画像のリサイズ
+  const { mimeType, resizedImage } = await (async () => {
+    const ogImage = og.ogImage?.at(0);
+    if (!ogImage) {
+      console.log('ogp image not found');
+      return {};
+    }
+    return await resizeImage(new URL(ogImage.url, link).href);
+  })();
+
   // Blueskyに投稿
-  await postBluesky(text, title, link, og);
+  await postBluesky(text, title, link, {
+    type: mimeType,
+    image: resizedImage,
+    description: og.ogDescription,
+  });
 
   // IFTTTを使ってXに投稿
   await postWebhook(text);
