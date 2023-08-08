@@ -82,7 +82,7 @@
   },
   "npm": {
     "specifiers": {
-      "@atproto/api": "@atproto/api@0.4.3",
+      "@atproto/api": "@atproto/api@0.5.2",
       "graphemer": "graphemer@1.4.0",
       "open-graph-scraper": "open-graph-scraper@6.2.2",
       "sharp": "sharp@0.32.1"
@@ -100,6 +100,16 @@
       },
       "@atproto/api@0.4.3": {
         "integrity": "sha512-8LdREwmoA58YQDrLS0rohd7cHokhoiXfyYEeNtNlkdO0w/2QpkUCQ1PgPBP2kIRM9PhOEkKp7W3Sn8Te9Qq8jg==",
+        "dependencies": {
+          "@atproto/common-web": "@atproto/common-web@0.1.0",
+          "@atproto/uri": "@atproto/uri@0.0.2",
+          "@atproto/xrpc": "@atproto/xrpc@0.1.0",
+          "tlds": "tlds@1.240.0",
+          "typed-emitter": "typed-emitter@2.1.0"
+        }
+      },
+      "@atproto/api@0.5.2": {
+        "integrity": "sha512-AAYz/IL52efZzaIx6Q8wV20MPK3/P5Dpm2qrFeh+rZHaP4KGPJaqLLYnK+SG9ZPQAHtvc18ZftNQJHB2CZsEbw==",
         "dependencies": {
           "@atproto/common-web": "@atproto/common-web@0.1.0",
           "@atproto/uri": "@atproto/uri@0.0.2",
