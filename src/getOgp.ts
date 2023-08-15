@@ -3,10 +3,10 @@ import ogs from 'npm:open-graph-scraper';
 export default async (url: string) => {
   const res = await fetch(url, {
     headers: { 'user-agent': 'Twitterbot' },
-  }).catch(() => {});
+  });
 
   // OGP取得のリクエストに失敗した場合は空オブジェクトを返す
-  if (!res) {
+  if (!res.ok) {
     console.log('failed to get ogp');
     return {};
   }
