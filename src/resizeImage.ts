@@ -22,13 +22,17 @@ export default async (url: string) => {
     } else {
       mimeType = 'image/jpeg';
       const image = await Image.decode(buffer);
+      const maxWidth = 1200;
+      const maxHeight = 1200;
+      const maxByteLength = 1 * 1024 * 1024;
       resizedImage =
-        image.width < 1024 && image.height < 1024
+        (image.width <= maxWidth && image.height <= maxHeight) ||
+        buffer.byteLength <= maxByteLength
           ? await image.encodeJPEG()
           : await image
               .resize(
-                image.width >= image.height ? 1024 : Image.RESIZE_AUTO,
-                image.width < image.height ? 1024 : Image.RESIZE_AUTO
+                image.width >= image.height ? maxWidth : Image.RESIZE_AUTO,
+                image.width < image.height ? maxHeight : Image.RESIZE_AUTO,
               )
               .encodeJPEG();
     }
