@@ -54,6 +54,7 @@ export default async ({
         thumb,
       },
     },
+    langs: ['ja'],
   };
 
   console.log(JSON.stringify(postObj, null, 2));
