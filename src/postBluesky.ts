@@ -1,12 +1,7 @@
-import AtprotoAPI, { RichText } from 'npm:@atproto/api';
-const { BskyAgent } = AtprotoAPI;
-const service = 'https://bsky.social';
-const agent = new BskyAgent({ service });
-const identifier = Deno.env.get('BLUESKY_IDENTIFIER') || '';
-const password = Deno.env.get('BLUESKY_PASSWORD') || '';
-await agent.login({ identifier, password });
+import AtprotoAPI, { BskyAgent, RichText } from 'npm:@atproto/api';
 
 export default async ({
+  agent,
   rt,
   title,
   link,
@@ -14,6 +9,7 @@ export default async ({
   mimeType,
   image,
 }: {
+  agent: BskyAgent;
   rt: RichText;
   title: string;
   link: string;

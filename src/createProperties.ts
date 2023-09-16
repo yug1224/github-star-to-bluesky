@@ -1,15 +1,13 @@
 import { FeedEntry } from 'https://deno.land/x/rss@0.6.0/src/types/mod.ts';
-import AtprotoAPI from 'npm:@atproto/api';
 import defaultsGraphemer from 'npm:graphemer';
 
 const Graphemer = defaultsGraphemer.default;
 const splitter = new Graphemer();
 
-const { BskyAgent, RichText } = AtprotoAPI;
-const service = 'https://bsky.social';
-const agent = new BskyAgent({ service });
+import AtprotoAPI, { BskyAgent } from 'npm:@atproto/api';
+const { RichText } = AtprotoAPI;
 
-export default async (item: FeedEntry) => {
+export default async (agent: BskyAgent, item: FeedEntry) => {
   const title: string = item.title?.value || '';
   const description: string = item.description?.value || '';
   const link: string = item.links[0].href || '';

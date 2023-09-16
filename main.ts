@@ -7,6 +7,14 @@ import postBluesky from './src/postBluesky.ts';
 import postWebhook from './src/postWebhook.ts';
 import resizeImage from './src/resizeImage.ts';
 
+import AtprotoAPI from 'npm:@atproto/api';
+const { BskyAgent } = AtprotoAPI;
+const service = 'https://bsky.social';
+const agent = new BskyAgent({ service });
+const identifier = Deno.env.get('BLUESKY_IDENTIFIER') || '';
+const password = Deno.env.get('BLUESKY_PASSWORD') || '';
+await agent.login({ identifier, password });
+
 // rss feedから記事リストを取得
 const itemList = await getItemList();
 console.log(JSON.stringify(itemList, null, 2));
@@ -27,6 +35,7 @@ for await (const item of itemList) {
 
   // 投稿記事のプロパティを作成
   const { bskyText, xText, title, link, description } = await createProperties(
+    agent,
     item
   );
 
@@ -45,6 +54,7 @@ for await (const item of itemList) {
 
   // Blueskyに投稿
   await postBluesky({
+    agent,
     rt: bskyText,
     title,
     link,
