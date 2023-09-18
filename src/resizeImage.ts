@@ -1,4 +1,4 @@
-import { Image, GIF } from 'https://deno.land/x/imagescript@1.2.15/mod.ts';
+import { GIF, Image } from 'https://deno.land/x/imagescript@1.2.15/mod.ts';
 
 export default async (url: string) => {
   const response = await fetch(url);
@@ -25,16 +25,15 @@ export default async (url: string) => {
       const maxWidth = 1200;
       const maxHeight = 1200;
       const maxByteLength = 1 * 1024 * 1024;
-      resizedImage =
-        (image.width <= maxWidth && image.height <= maxHeight) ||
-        buffer.byteLength <= maxByteLength
-          ? await image.encodeJPEG()
-          : await image
-              .resize(
-                image.width >= image.height ? maxWidth : Image.RESIZE_AUTO,
-                image.width < image.height ? maxHeight : Image.RESIZE_AUTO,
-              )
-              .encodeJPEG();
+      resizedImage = (image.width <= maxWidth && image.height <= maxHeight) ||
+          buffer.byteLength <= maxByteLength
+        ? await image.encodeJPEG()
+        : await image
+          .resize(
+            image.width >= image.height ? maxWidth : Image.RESIZE_AUTO,
+            image.width < image.height ? maxHeight : Image.RESIZE_AUTO,
+          )
+          .encodeJPEG();
     }
     console.log('success to resize image');
   } catch {

@@ -1,14 +1,14 @@
 name: Star to SNS
 on:
   schedule:
-    # 5分ごとに実行
-    - cron: '0/5 * * * *'
+    # 15分ごとに実行
+    - cron: '0/15 * * * *'
   workflow_dispatch:
 jobs:
   star-to-SNS:
-    runs-on: ubuntu-latest
-    # 1分以上かかったらタイムアウト
-    timeout-minutes: 1
+    runs-on: macos-latest
+    # 15分以上かかったらタイムアウト
+    timeout-minutes: 15
     steps:
       # リポジトリのチェックアウト
       - name: Checkout

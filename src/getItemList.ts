@@ -22,6 +22,6 @@ export default async () => {
       new RegExp('starred', 'g').test(item.title?.value || '')
     );
   });
-  // foundListの1件目までを返す
-  return foundList.slice(0, 1);
+  // foundListの20件目までを返す
+  return foundList.slice(0, 20);
 };
