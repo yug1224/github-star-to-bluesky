@@ -35,15 +35,18 @@ try {
       : new Date().toISOString();
     await Deno.writeTextFile('.timestamp', timestamp);
 
+    // URLからOGPの取得
+    const og = await getOgp(item.links[0].href || '');
+
     // 投稿記事のプロパティを作成
     const { bskyText, xText, title, link, description } =
-      await createProperties(
-        agent,
-        item,
-      );
-
-    // URLからOGPの取得
-    const og = await getOgp(link);
+      await createProperties(agent, {
+        ...item,
+        title: { value: `${item.title?.value}\n\n${og.ogTitle}` },
+        description: {
+          value: og.ogDescription || item.description?.value || '',
+        },
+      });
 
     // 画像のリサイズ
     const { mimeType, resizedImage } = await (async () => {
@@ -59,7 +62,7 @@ try {
     await postBluesky({
       agent,
       rt: bskyText,
-      title,
+      title: og.ogTitle || title,
       link,
       description: description || og.ogDescription || '',
       mimeType,
