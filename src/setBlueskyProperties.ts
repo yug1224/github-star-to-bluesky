@@ -7,19 +7,19 @@ const splitter = new Graphemer();
 import AtprotoAPI, { BskyAgent } from 'npm:@atproto/api';
 const { RichText } = AtprotoAPI;
 
-export default async (agent: BskyAgent, item: FeedEntry) => {
+export default async ({ agent, item }: {
+  agent: BskyAgent;
+  item: FeedEntry;
+}) => {
   const title: string = item.title?.value || '';
-  const description: string = item.description?.value || '';
-  const link: string = item.links[0].href || '';
+  const link = item.links[0].href || '';
 
   // Bluesky用のテキストを作成
   const bskyText = await (async () => {
     const max = 300;
     const { host, pathname } = new URL(link);
     const ellipsis = `...\n`;
-    const key =
-      splitter.splitGraphemes(`${host}${pathname}`).slice(0, 19).join('') +
-      ellipsis;
+    const key = splitter.splitGraphemes(`${host}${pathname}`).slice(0, 19).join('') + ellipsis;
     let text = `${title}\n${key}`;
 
     if (splitter.countGraphemes(text) > max) {
@@ -52,20 +52,6 @@ export default async (agent: BskyAgent, item: FeedEntry) => {
     return rt;
   })();
 
-  // X用のテキストを作成
-  const xText = (() => {
-    const max = 118;
-    const text = `${title}\n${link}`;
-    if (splitter.countGraphemes(title) <= max) return text;
-    const ellipsis = '...\n';
-    const cnt = max - ellipsis.length;
-    const shortenedTitle = splitter
-      .splitGraphemes(title)
-      .slice(0, cnt)
-      .join('');
-    return `${shortenedTitle}${ellipsis}${link}`;
-  })();
-
-  console.log('success createProperties');
-  return { bskyText, xText, title, link, description };
+  console.log('success setBlueskyProperties');
+  return { bskyText };
 };

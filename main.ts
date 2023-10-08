@@ -1,12 +1,13 @@
 import 'https://deno.land/std@0.193.0/dotenv/load.ts';
 import { delay } from 'https://deno.land/std@0.201.0/async/mod.ts';
 import AtprotoAPI from 'npm:@atproto/api';
-import createProperties from './src/createProperties.ts';
 import getItemList from './src/getItemList.ts';
 import getOgp from './src/getOgp.ts';
 import postBluesky from './src/postBluesky.ts';
 import postWebhook from './src/postWebhook.ts';
 import resizeImage from './src/resizeImage.ts';
+import setBlueskyProperties from './src/setBlueskyProperties.ts';
+import setXProperties from './src/setXProperties.ts';
 
 try {
   // rss feedから記事リストを取得
@@ -30,23 +31,24 @@ try {
   // 取得した記事リストをループ処理
   for await (const item of itemList) {
     // 最終実行時間を更新
-    const timestamp = item.published
-      ? new Date(item.published).toISOString()
-      : new Date().toISOString();
+    const timestamp = item.published ? new Date(item.published).toISOString() : new Date().toISOString();
     await Deno.writeTextFile('.timestamp', timestamp);
 
+    const link = item.links[0].href || '';
+
     // URLからOGPの取得
-    const og = await getOgp(item.links[0].href || '');
+    const og = await getOgp(link);
 
     // 投稿記事のプロパティを作成
-    const { bskyText, xText, title, link, description } =
-      await createProperties(agent, {
+    const { bskyText } = await setBlueskyProperties({ agent, item });
+    const { xText } = await setXProperties({
+      item: {
         ...item,
-        title: { value: `${item.title?.value}\n\n${og.ogTitle}` },
-        description: {
-          value: og.ogDescription || item.description?.value || '',
+        title: {
+          value: `${item.title?.value}\n\n${og.ogTitle}`,
         },
-      });
+      },
+    });
 
     // 画像のリサイズ
     const { mimeType, resizedImage } = await (async () => {
@@ -62,9 +64,9 @@ try {
     await postBluesky({
       agent,
       rt: bskyText,
-      title: og.ogTitle || title,
+      title: og.ogTitle || '',
       link,
-      description: description || og.ogDescription || '',
+      description: og.ogDescription || '',
       mimeType,
       image: resizedImage,
     });

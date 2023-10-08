@@ -52,22 +52,23 @@ export default async ({
     }
   })();
 
-  const postObj: Partial<AtprotoAPI.AppBskyFeedPost.Record> &
-    Omit<AtprotoAPI.AppBskyFeedPost.Record, 'createdAt'> = {
-    $type: 'app.bsky.feed.post',
-    text: rt.text,
-    facets: rt.facets,
-    embed: {
-      $type: 'app.bsky.embed.external',
-      external: {
-        uri: link,
-        title,
-        description,
-        thumb,
+  const postObj:
+    & Partial<AtprotoAPI.AppBskyFeedPost.Record>
+    & Omit<AtprotoAPI.AppBskyFeedPost.Record, 'createdAt'> = {
+      $type: 'app.bsky.feed.post',
+      text: rt.text,
+      facets: rt.facets,
+      embed: {
+        $type: 'app.bsky.embed.external',
+        external: {
+          uri: link,
+          title,
+          description,
+          thumb,
+        },
       },
-    },
-    langs: ['ja'],
-  };
+      langs: ['ja'],
+    };
 
   console.log(JSON.stringify(postObj, null, 2));
   await agent.post(postObj);
