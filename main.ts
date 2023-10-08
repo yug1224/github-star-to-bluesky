@@ -41,14 +41,7 @@ try {
 
     // 投稿記事のプロパティを作成
     const { bskyText } = await setBlueskyProperties({ agent, item });
-    const { xText } = await setXProperties({
-      item: {
-        ...item,
-        title: {
-          value: `${item.title?.value}\n\n${og.ogTitle}`,
-        },
-      },
-    });
+    const { xText } = await setXProperties({ item });
 
     // 画像のリサイズ
     const { mimeType, resizedImage } = await (async () => {

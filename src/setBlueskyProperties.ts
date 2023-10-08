@@ -18,12 +18,12 @@ export default async ({ agent, item }: {
   const bskyText = await (async () => {
     const max = 300;
     const { host, pathname } = new URL(link);
-    const ellipsis = `...\n`;
+    const ellipsis = `...`;
     const key = splitter.splitGraphemes(`${host}${pathname}`).slice(0, 19).join('') + ellipsis;
-    let text = `${title}\n${key}`;
+    let text = `${title}\n\n${key}`;
 
     if (splitter.countGraphemes(text) > max) {
-      const ellipsis = `...\n`;
+      const ellipsis = `...\n\n`;
       const cnt = max - splitter.countGraphemes(`${ellipsis}${key}`);
       const shortenedTitle = splitter
         .splitGraphemes(title)
