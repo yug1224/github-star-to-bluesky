@@ -11,7 +11,7 @@ export default async ({ agent, item }: {
   agent: BskyAgent;
   item: FeedEntry;
 }) => {
-  const title: string = item.title?.value || '';
+  const title: string = (item.title?.value || '').trim();
   const link = item.links[0].href || '';
 
   // Bluesky用のテキストを作成
