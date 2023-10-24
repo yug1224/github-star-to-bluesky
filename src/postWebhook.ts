@@ -5,12 +5,15 @@ export default async (text: string) => {
     return;
   }
 
-  await fetch(WEBHOOK_URL, {
+  const postObj = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({ value1: text }),
-  });
+  };
+
+  console.log(JSON.stringify(postObj, null, 2));
+  await fetch(WEBHOOK_URL, postObj);
   console.log('post to X');
 };

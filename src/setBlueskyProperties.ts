@@ -16,29 +16,17 @@ export default async ({ agent, item }: {
 
   // Bluesky用のテキストを作成
   const bskyText = await (async () => {
-    const max = 300;
     const { host, pathname } = new URL(link);
-    const ellipsis = `...`;
-    const key = splitter.splitGraphemes(`${host}${pathname}`).slice(0, 19).join('') + ellipsis;
-    let text = `${title}\n\n${key}`;
-
-    if (splitter.countGraphemes(text) > max) {
-      const ellipsis = `...\n\n`;
-      const cnt = max - splitter.countGraphemes(`${ellipsis}${key}`);
-      const shortenedTitle = splitter
-        .splitGraphemes(title)
-        .slice(0, cnt)
-        .join('');
-      text = `${shortenedTitle}${ellipsis}${key}`;
-    }
+    const key = splitter.splitGraphemes(`${host}${pathname}`).slice(0, 19).join('') + '...';
+    const text = `${title}\n${key}\n---`;
 
     const rt = new RichText({ text });
     await rt.detectFacets(agent);
     rt.facets = [
       {
         index: {
-          byteStart: rt.unicodeText.length - splitter.countGraphemes(key),
-          byteEnd: rt.unicodeText.length,
+          byteStart: rt.unicodeText.length - splitter.countGraphemes(`${key}\n---`),
+          byteEnd: rt.unicodeText.length - splitter.countGraphemes('\n---'),
         },
         features: [
           {
