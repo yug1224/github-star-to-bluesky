@@ -18,15 +18,15 @@ export default async ({ agent, item }: {
   const bskyText = await (async () => {
     const { host, pathname } = new URL(link);
     const key = splitter.splitGraphemes(`${host}${pathname}`).slice(0, 19).join('') + '...';
-    const text = `${title}\n${key}\n---`;
+    const text = `${key}\n${title}`;
 
     const rt = new RichText({ text });
     await rt.detectFacets(agent);
     rt.facets = [
       {
         index: {
-          byteStart: rt.unicodeText.length - splitter.countGraphemes(`${key}\n---`),
-          byteEnd: rt.unicodeText.length - splitter.countGraphemes('\n---'),
+          byteStart: 0,
+          byteEnd: splitter.countGraphemes(key),
         },
         features: [
           {
@@ -40,6 +40,6 @@ export default async ({ agent, item }: {
     return rt;
   })();
 
-  console.log('success setBlueskyProperties');
+  console.log('success createBlueskyProps');
   return { bskyText };
 };

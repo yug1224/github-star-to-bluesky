@@ -6,9 +6,9 @@ export default async ({ item }: { item: FeedEntry }) => {
 
   // X用のテキストを作成
   const xText = (() => {
-    return `${title}\n${link}\n---`;
+    return `${link}\n${title}`;
   })();
 
-  console.log('success setXProperties');
+  console.log('success createXProps');
   return { xText };
 };

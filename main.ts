@@ -1,13 +1,13 @@
 import 'https://deno.land/std@0.193.0/dotenv/load.ts';
 import { delay } from 'https://deno.land/std@0.201.0/async/mod.ts';
 import AtprotoAPI from 'npm:@atproto/api';
+import createBlueskyProps from './src/createBlueskyProps.ts';
+import createXProps from './src/createXProps.ts';
 import getItemList from './src/getItemList.ts';
 import getOgp from './src/getOgp.ts';
 import postBluesky from './src/postBluesky.ts';
 import postWebhook from './src/postWebhook.ts';
 import resizeImage from './src/resizeImage.ts';
-import setBlueskyProperties from './src/setBlueskyProperties.ts';
-import setXProperties from './src/setXProperties.ts';
 
 try {
   // rss feedから記事リストを取得
@@ -40,8 +40,8 @@ try {
     const og = await getOgp(link);
 
     // 投稿記事のプロパティを作成
-    const { bskyText } = await setBlueskyProperties({ agent, item });
-    const { xText } = await setXProperties({ item });
+    const { bskyText } = await createBlueskyProps({ agent, item });
+    const { xText } = await createXProps({ item });
 
     // 画像のリサイズ
     const { mimeType, resizedImage } = await (async () => {
