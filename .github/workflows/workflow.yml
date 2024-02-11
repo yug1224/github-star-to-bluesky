@@ -1,11 +1,11 @@
-name: Star to SNS
+name: GitHub Star to Bluesky
 on:
   schedule:
     # 15分ごとに実行
     - cron: '0/15 * * * *'
   workflow_dispatch:
 jobs:
-  star-to-SNS:
+  github-star-to-bluesky:
     runs-on: macos-latest
     # 15分以上かかったらタイムアウト
     timeout-minutes: 15
@@ -15,7 +15,7 @@ jobs:
         uses: actions/checkout@v3
       # Cacheの復元
       - name: Cache Deno Deps
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: |
             ~/.deno
@@ -54,7 +54,6 @@ jobs:
           BLUESKY_IDENTIFIER: ${{secrets.BLUESKY_IDENTIFIER}}
           BLUESKY_PASSWORD: ${{secrets.BLUESKY_PASSWORD}}
           RSS_URL: ${{secrets.RSS_URL}}
-          WEBHOOK_URL: ${{secrets.WEBHOOK_URL}}
       # Cacheの保存
       - name: Save Last Execution Time Cache
         uses: actions/cache/save@v3
